@@ -4,6 +4,9 @@ ARG N8N_VERSION=snapshot
 # 1. Create an image to build n8n
 FROM --platform=linux/amd64 n8nio/base:${NODE_VERSION} AS builder
 
+# Install pnpm
+RUN corepack enable && corepack prepare pnpm@8.15.4 --activate
+
 # Build the application from source
 WORKDIR /src
 COPY . /src

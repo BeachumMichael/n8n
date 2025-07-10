@@ -78,8 +78,8 @@ onMounted(() => {
 }
 
 .authView {
-	transform: scale(2);
-	margin-bottom: var(--spacing-xl);
+	transform: scale(0.7);
+	margin-bottom: -12px;
 }
 
 .logo,

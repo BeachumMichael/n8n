@@ -60,7 +60,7 @@ const limitWaitTimeOption: INodeProperties = {
 };
 
 const appendAttributionOption: INodeProperties = {
-	displayName: 'Append n8n Attribution',
+	displayName: 'Append CODI Attribution',
 	name: 'appendAttribution',
 	type: 'boolean',
 	default: true,
