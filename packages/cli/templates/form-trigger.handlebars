@@ -427,35 +427,31 @@
 			font-size: var(--font-size-input);
 		}
 
-		@media only screen and (max-width: 500px) {
-			body {
-				background-color: #ffffff;
+			@media only screen and (max-width: 500px) {
+				body {
+					background-color: var(--color-background);
+				}
+				hr {
+					display: block;
+				}
+				.container {
+					width: 95%;
+					min-height: 100vh;
+					padding: 24px;
+					border: 0px solid var(--color-input-border);
+					border-radius: 0px;
+					box-shadow: 0px 0px 0px 0px #ffffff;
+				}
+				.card {
+					padding: 0px;
+					background-color: var(--color-card-bg);
+					border: 0px solid var(--color-input-border);
+					border-radius: 0px;
+					box-shadow: 0px 0px 0px 0px #ffffff;
+					margin-bottom: 0px;
+				}
 			}
-
-			hr {
-				display: block;
-			}
-
-			.container {
-				width: 95%;
-				min-height: 100vh;
-				padding: 24px;
-				background-color: #ffffff;
-				border: 0px solid var(--color-input-border);
-				border-radius: 0px;
-				box-shadow: 0px 0px 0px 0px #ffffff;
-			}
-
-			.card {
-				padding: 0px;
-				background-color: #ffffff;
-				border: 0px solid var(--color-input-border);
-				border-radius: 0px;
-				box-shadow: 0px 0px 0px 0px #ffffff;
-				margin-bottom: 0px;
-			}
-		}
-	</style>
+		</style>
 
 	{{#if dangerousCustomCss}}
 	<style>
@@ -846,12 +842,10 @@
 				document.querySelector('#submit-btn').style.cursor = 'not-allowed';
 				document.querySelector('#submit-btn span').style.display = 'inline-block';
 
-				let postUrl = '';
-				if (window.location.href.includes('form-waiting')) {
-					intervalId = setTimeout(checkExecutionStatus, interval);
-				} else {
-					postUrl = window.location.search;
-				}
+					let postUrl = '';
+					if (!window.location.href.includes('form-waiting')) {
+						postUrl = window.location.search;
+					}
 
 				fetch(postUrl, {
 					method: 'POST',
@@ -868,11 +862,12 @@
 								json = JSON.parse(text);
 							} catch (e) { }
 
-							if (json?.formWaitingUrl) {
-								formWaitingUrl = json.formWaitingUrl;
-								intervalId = setTimeout(checkExecutionStatus, interval);
-								return;
-							}
+								if(json?.formWaitingUrl) {
+									formWaitingUrl = json.formWaitingUrl;
+									clearTimeout(timeoutId);
+									timeoutId = setTimeout(checkExecutionStatus, interval);
+									return;
+								}
 
 							if (json?.redirectURL) {
 								const url = json.redirectURL.includes("://") ? json.redirectURL : "https://" + json.redirectURL;
@@ -920,14 +915,21 @@
 								'Please try again or contact support if the problem persists';
 						}
 
-						return;
-					})
-					.catch(function (error) {
-						console.error('Error:', error);
-					});
-			}
-		});
-	</script>
-</body>
+							return;
+						})
+						.catch(function (error) {
+							console.error('Error:', error);
+						})
+						.finally(() => {
+							if (window.location.href.includes('form-waiting')) {
+								clearTimeout(timeoutId);
+								timeoutId = setTimeout(checkExecutionStatus, interval);
+							}
+						});
+				}
+			});
+		</script>
+	</body>
+</html>
 
 </html>
