@@ -395,5 +395,6 @@ export const respondWithOptions: INodeProperties = {
 
 export const appendAttributionToForm: INodeProperties = {
 	...appendAttributionOption,
-	description: 'Whether to include the link “Form automated with CODI” at the bottom of the form',
+	description:
+		'Whether to include the link “Powered by Streamline Automations” at the bottom of the form',
 };

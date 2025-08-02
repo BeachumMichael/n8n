@@ -66,7 +66,7 @@ const limitWaitTimeOption: INodeProperties = {
 };
 
 const appendAttributionOption: INodeProperties = {
-	displayName: 'Append CODI Attribution',
+	displayName: 'Append Streamline Automations Attribution',
 	name: 'appendAttribution',
 	type: 'boolean',
 	default: true,
